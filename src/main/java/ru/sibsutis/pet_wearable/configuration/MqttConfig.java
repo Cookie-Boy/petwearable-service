@@ -21,9 +21,6 @@ public class MqttConfig {
     @Value("${mqtt.client-id}")
     private String clientId;
 
-    @Value("${mqtt.topic}")
-    private String topic;
-
     @Bean
     public MqttPahoClientFactory mqttClientFactory() {
         DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
@@ -45,7 +42,6 @@ public class MqttConfig {
         MqttPahoMessageHandler handler =
                 new MqttPahoMessageHandler(clientId + "-out", mqttClientFactory());
         handler.setAsync(true);
-        handler.setDefaultTopic(topic);
         handler.setDefaultRetained(false);
         return handler;
     }

@@ -18,6 +18,9 @@ public class PetWearableScheduler {
     private final MqttGateway mqttGateway;
     private final ObjectMapper objectMapper;
 
+    @Value("${mqtt.topic}")
+    private String mqttTopic;
+
     @Autowired
     public PetWearableScheduler(VitalDataGenerator generator,
                                 MqttGateway mqttGateway,
@@ -33,7 +36,8 @@ public class PetWearableScheduler {
         for (VitalData data : allData) {
             try {
                 String json = objectMapper.writeValueAsString(data);
-                mqttGateway.sendToMqtt(json);
+                mqttGateway.sendToMqtt(json, mqttTopic);
+                log.info("Vital data for pet with ID: {} sent.", data.getPetId());
             } catch (Exception e) {
                 log.error("Error: {}", e.getMessage());
             }

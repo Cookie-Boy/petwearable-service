@@ -31,7 +31,8 @@ dependencies {
 	implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
-	implementation 'tools.jackson.core:jackson-databind:3.1.0'
+	implementation 'tools.jackson.core:jackson-databind'
+	implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
