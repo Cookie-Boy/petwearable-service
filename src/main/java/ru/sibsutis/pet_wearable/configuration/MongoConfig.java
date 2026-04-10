@@ -13,7 +13,7 @@ public class MongoConfig {
     @Bean
     @Primary
     public MongoClient mongoClient() {
-        return MongoClients.create("mongodb://localhost:27017/vet-clinic");
+        return MongoClients.create("mongodb://mongo:27017/vet-clinic");
     }
 
     @Bean
