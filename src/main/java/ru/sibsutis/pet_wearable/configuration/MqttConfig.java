@@ -1,5 +1,6 @@
 package ru.sibsutis.pet_wearable.configuration;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
+@Slf4j
 @Configuration
 public class MqttConfig {
 
@@ -23,6 +25,7 @@ public class MqttConfig {
 
     @Bean
     public MqttPahoClientFactory mqttClientFactory() {
+        log.info("MQTT url: {}", brokerUrl);
         DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
         MqttConnectOptions options = new MqttConnectOptions();
         options.setServerURIs(new String[]{brokerUrl});
