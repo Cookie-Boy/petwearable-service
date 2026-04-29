@@ -1,4 +1,4 @@
-package ru.sibsutis.pet_wearable.model;
+package ru.sibsutis.pet_wearable.core.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

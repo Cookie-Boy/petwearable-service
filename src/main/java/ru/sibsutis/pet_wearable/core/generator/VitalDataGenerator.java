@@ -1,10 +1,10 @@
-package ru.sibsutis.pet_wearable.generator;
+package ru.sibsutis.pet_wearable.core.generator;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.sibsutis.pet_wearable.model.Pet;
-import ru.sibsutis.pet_wearable.model.VitalData;
-import ru.sibsutis.pet_wearable.repository.PetRepository;
+import ru.sibsutis.pet_wearable.api.dto.PetDto;
+import ru.sibsutis.pet_wearable.core.model.VitalData;
+import ru.sibsutis.pet_wearable.core.service.PetCacheService;
 
 import java.time.Instant;
 import java.util.*;
@@ -14,18 +14,18 @@ import java.util.concurrent.ThreadLocalRandom;
 @RequiredArgsConstructor
 public class VitalDataGenerator {
 
-    private final PetRepository petRepository;
+    private final PetCacheService petCacheService;
 
     public List<VitalData> generateForAllPets() {
         List<VitalData> batch = new ArrayList<>();
-        List<Pet> pets = petRepository.findAll();
-        for (Pet pet : pets) {
+        List<PetDto> pets = petCacheService.getAllPets();
+        for (PetDto pet : pets) {
             batch.add(generateForPet(pet));
         }
         return batch;
     }
 
-    private VitalData generateForPet(Pet pet) {
+    private VitalData generateForPet(PetDto pet) {
         int heartRate = randomInRange(60, 120);
         int respiration = randomInRange(15, 30);
 

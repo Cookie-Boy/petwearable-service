@@ -1,4 +1,4 @@
-package ru.sibsutis.pet_wearable.service;
+package ru.sibsutis.pet_wearable.core.service;
 
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.mqtt.support.MqttHeaders;
