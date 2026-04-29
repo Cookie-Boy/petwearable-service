@@ -4,11 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.*;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
-import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAuth2AuthorizedClientRepository;
-
-import java.util.Collections;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
 
 @Configuration
 public class OAuth2ClientConfig {
@@ -18,24 +15,14 @@ public class OAuth2ClientConfig {
             ClientRegistrationRepository clientRegistrationRepository,
             OAuth2AuthorizedClientService authorizedClientService) {
 
-        // Оборачиваем сервис в репозиторий
-        OAuth2AuthorizedClientRepository authorizedClientRepository =
-                new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
+        OAuth2AuthorizedClientProvider provider = OAuth2AuthorizedClientProviderBuilder.builder()
+                .clientCredentials()
+                .build();
 
-        DefaultOAuth2AuthorizedClientManager authorizedClientManager =
-                new DefaultOAuth2AuthorizedClientManager(
-                        clientRegistrationRepository, authorizedClientRepository);
+        AuthorizedClientServiceOAuth2AuthorizedClientManager manager =
+                new AuthorizedClientServiceOAuth2AuthorizedClientManager(clientRegistrationRepository, authorizedClientService);
 
-        // Используем только client_credentials провайдер
-        OAuth2AuthorizedClientProvider authorizedClientProvider =
-                OAuth2AuthorizedClientProviderBuilder.builder()
-                        .clientCredentials()
-                        .build();
-        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
-
-        // Убираем привязку к HttpServletRequest
-        authorizedClientManager.setContextAttributesMapper(contextAttributes -> Collections.emptyMap());
-
-        return authorizedClientManager;
+        manager.setAuthorizedClientProvider(provider);
+        return manager;
     }
 }
