@@ -6,6 +6,7 @@ import org.springframework.security.oauth2.client.*;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
+import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAuth2AuthorizedClientRepository;
 
 import java.util.Collections;
 
@@ -15,21 +16,26 @@ public class OAuth2ClientConfig {
     @Bean
     public OAuth2AuthorizedClientManager authorizedClientManager(
             ClientRegistrationRepository clientRegistrationRepository,
-            OAuth2AuthorizedClientRepository authorizedClientRepository) {
+            OAuth2AuthorizedClientService authorizedClientService) {
 
-        // Провайдер только для client_credentials (не требует запроса)
-        OAuth2AuthorizedClientProvider authorizedClientProvider =
-                OAuth2AuthorizedClientProviderBuilder.builder()
-                        .clientCredentials()
-                        .build();
+        // Оборачиваем сервис в репозиторий
+        OAuth2AuthorizedClientRepository authorizedClientRepository =
+                new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
 
         DefaultOAuth2AuthorizedClientManager authorizedClientManager =
                 new DefaultOAuth2AuthorizedClientManager(
                         clientRegistrationRepository, authorizedClientRepository);
+
+        // Используем только client_credentials провайдер
+        OAuth2AuthorizedClientProvider authorizedClientProvider =
+                OAuth2AuthorizedClientProviderBuilder.builder()
+                        .clientCredentials()
+                        .build();
         authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
 
-        // Отключаем попытки достать HttpServletRequest – передаём пустые атрибуты
+        // Убираем привязку к HttpServletRequest
         authorizedClientManager.setContextAttributesMapper(contextAttributes -> Collections.emptyMap());
+
         return authorizedClientManager;
     }
 }
