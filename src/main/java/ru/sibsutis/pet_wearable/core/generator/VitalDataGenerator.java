@@ -28,6 +28,7 @@ public class VitalDataGenerator {
     private VitalData generateForPet(PetDto pet) {
         int heartRate = randomInRange(60, 120);
         int respiration = randomInRange(15, 30);
+        double temperature = randomInRange(37.5, 39.2);
 
         if (ThreadLocalRandom.current().nextDouble() < 0.1) {
             heartRate = randomInRange(180, 220); // тахикардия
@@ -46,6 +47,7 @@ public class VitalDataGenerator {
                 .breed(pet.getBreed())
                 .heartRate(heartRate)
                 .respiration(respiration)
+                .temperature(temperature)
                 .distanceFromHome(distance)
                 .timestamp(Instant.now().getEpochSecond())
                 .build();
@@ -53,6 +55,10 @@ public class VitalDataGenerator {
 
     private int randomInRange(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
+    }
+
+    private double randomInRange(double min, double max) {
+        return ThreadLocalRandom.current().nextDouble(min, max + 1);
     }
 
     private double randomOffset(double range) {

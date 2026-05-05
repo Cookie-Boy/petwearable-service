@@ -20,7 +20,7 @@ public class VitalData {
     private Integer heartRate;
     private Integer respiration;
     private Double temperature;
-
+    
     private Double distanceFromHome;
 
     private Long timestamp;
