@@ -38,8 +38,8 @@ public class VitalDataGenerator {
         double homeLon = pet.getCollar().getHomeInfo().getLon();
         double lat = homeLat + randomOffset(0.02);  // ±2 км
         double lon = homeLon + randomOffset(0.02);
-
         double distance = calculateDistance(homeLat, homeLon, lat, lon);
+        VitalData.Location location = new VitalData.Location(lat, lon, distance);
 
         return VitalData.builder()
                 .petId(pet.getId())
@@ -48,7 +48,7 @@ public class VitalDataGenerator {
                 .heartRate(heartRate)
                 .respiration(respiration)
                 .temperature(temperature)
-                .distanceFromHome(distance)
+                .location(location)
                 .timestamp(Instant.now().getEpochSecond())
                 .build();
     }

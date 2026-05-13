@@ -21,12 +21,19 @@ public class VitalData {
     private Integer respiration;
     private Double temperature;
     
-    private Double distanceFromHome;
+    private Location location;
 
     private Long timestamp;
 
     @JsonProperty("timestamp")
     public Long getTimestamp() {
         return timestamp != null ? timestamp : Instant.now().getEpochSecond();
+    }
+
+    @AllArgsConstructor
+    public static class Location {
+        private Double lat;
+        private Double lon;
+        private Double distanceFromHome;
     }
 }
