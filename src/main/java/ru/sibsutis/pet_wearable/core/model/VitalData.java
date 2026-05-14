@@ -30,6 +30,7 @@ public class VitalData {
         return timestamp != null ? timestamp : Instant.now().getEpochSecond();
     }
 
+    @Data
     @AllArgsConstructor
     public static class Location {
         private Double lat;
