@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.5'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'com.google.protobuf' version '0.10.0'
 }
 
 group = 'ru.sibsutis'
@@ -33,6 +34,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+	implementation 'com.google.protobuf:protobuf-java:4.34.1'
+
 	implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
 
 	compileOnly 'org.projectlombok:lombok'
@@ -40,6 +43,12 @@ dependencies {
 
 	testImplementation 'org.springframework.integration:spring-integration-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+protobuf {
+	protoc {
+		artifact = 'com.google.protobuf:protoc:4.34.1'
+	}
 }
 
 tasks.named('test') {

@@ -3,6 +3,7 @@ package ru.sibsutis.pet_wearable.core.generator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.sibsutis.pet_wearable.api.dto.PetDto;
+import ru.sibsutis.pet_wearable.core.model.Location;
 import ru.sibsutis.pet_wearable.core.model.VitalData;
 import ru.sibsutis.pet_wearable.core.service.PetCacheService;
 
@@ -39,7 +40,7 @@ public class VitalDataGenerator {
         double lat = homeLat + randomOffset(0.02);  // ±2 км
         double lon = homeLon + randomOffset(0.02);
         double distance = calculateDistance(homeLat, homeLon, lat, lon);
-        VitalData.Location location = new VitalData.Location(lat, lon, distance);
+        Location location = new Location(lat, lon, distance);
 
         return VitalData.builder()
                 .petId(pet.getId())

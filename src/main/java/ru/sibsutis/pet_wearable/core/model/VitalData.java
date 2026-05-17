@@ -29,12 +29,4 @@ public class VitalData {
     public Long getTimestamp() {
         return timestamp != null ? timestamp : Instant.now().getEpochSecond();
     }
-
-    @Data
-    @AllArgsConstructor
-    public static class Location {
-        private Double lat;
-        private Double lon;
-        private Double distanceFromHome;
-    }
 }
