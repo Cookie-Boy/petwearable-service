@@ -55,6 +55,7 @@ public class PetWearableScheduler {
                     .setLat(loc.getLat() != null ? loc.getLat() : 0.0)
                     .setLon(loc.getLon() != null ? loc.getLon() : 0.0)
                     .setDistanceFromHome(loc.getDistanceFromHome() != null ? loc.getDistanceFromHome() : 0.0)
+                    .setDistanceLimit(loc.getDistanceLimit())
                     .build();
             builder.setLocation(pbLocation);
         }

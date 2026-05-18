@@ -21,7 +21,8 @@ public class VitalDataGenerator {
         List<VitalData> batch = new ArrayList<>();
         List<PetDto> pets = petCacheService.getAllPets();
         for (PetDto pet : pets) {
-            batch.add(generateForPet(pet));
+            if (pet.getCollar().getActive())
+                batch.add(generateForPet(pet));
         }
         return batch;
     }
@@ -35,12 +36,24 @@ public class VitalDataGenerator {
             heartRate = randomInRange(180, 220); // тахикардия
         }
 
+        if (!pet.getCollar().getHomeInfo().getAlerting()) {
+            return VitalData.builder()
+                    .petId(pet.getId())
+                    .species(pet.getSpecies())
+                    .breed(pet.getBreed())
+                    .heartRate(heartRate)
+                    .respiration(respiration)
+                    .temperature(temperature)
+                    .timestamp(Instant.now().getEpochSecond())
+                    .build();
+        }
+
         double homeLat = pet.getCollar().getHomeInfo().getLat();
         double homeLon = pet.getCollar().getHomeInfo().getLon();
         double lat = homeLat + randomOffset(0.02);  // ±2 км
         double lon = homeLon + randomOffset(0.02);
         double distance = calculateDistance(homeLat, homeLon, lat, lon);
-        Location location = new Location(lat, lon, distance);
+        Location location = new Location(lat, lon, distance, pet.getCollar().getHomeInfo().getRadius());
 
         return VitalData.builder()
                 .petId(pet.getId())
