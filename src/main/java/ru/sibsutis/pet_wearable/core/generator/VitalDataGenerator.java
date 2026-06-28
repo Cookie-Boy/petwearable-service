@@ -32,7 +32,7 @@ public class VitalDataGenerator {
         int respiration = randomInRange(15, 30);
         double temperature = randomInRange(37.5, 39.2);
 
-        if (ThreadLocalRandom.current().nextDouble() < 0.1) {
+        if (ThreadLocalRandom.current().nextDouble() < 0.01) {
             heartRate = randomInRange(180, 220); // тахикардия
         }
 
