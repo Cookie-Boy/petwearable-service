@@ -325,24 +325,6 @@ sequenceDiagram
 | `KEYCLOAK_ISSUER_URI` | Issuer URI Keycloak | `http://localhost:8080/realms/clinic-realm` |
 | `KEYCLOAK_CLIENT_SECRET` | Секрет клиента `pet-wearable-service` | — |
 
-### `application.properties` (фрагмент)
-
-```properties
-spring.application.name=pet_wearable
-server.port=8085
-
-mqtt.broker=tcp://${MQTT_HOST}:${MQTT_PORT}
-mqtt.client-id=pet-wearable-client
-mqtt.topic=pet/vitals
-
-gateway.url=http://${GATEWAY_HOST}:${GATEWAY_PORT}
-
-spring.security.oauth2.resourceserver.jwt.issuer-uri=${KEYCLOAK_ISSUER_URI}
-spring.security.oauth2.client.registration.pet-wearable.client-id=pet-wearable-service
-spring.security.oauth2.client.registration.pet-wearable.client-secret=${KEYCLOAK_CLIENT_SECRET}
-spring.security.oauth2.client.registration.pet-wearable.authorization-grant-type=client_credentials
-```
-
 ### Настройка MQTT-каналов Spring Integration
 
 Требуется два бина (в `MqttConfig`):
